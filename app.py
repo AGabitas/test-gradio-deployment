@@ -3,7 +3,12 @@ import gradio as gr
 
 app = FastAPI()
 
-with gr.Blocks() as demo:
-    gr.Markdown("Hello World")
+def authenticate_user(username, password):
+    if username == 'user' and password == 'pass':
+        return True
+    return False
 
-app = gr.mount_gradio_app(app, demo, path="/")
+
+io = gr.Interface(lambda x: "Hello, " + x + "!", "textbox", "textbox")
+
+app = gr.mount_gradio_app(app, io, "/", auth=authenticate_user)
